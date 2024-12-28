@@ -1,0 +1,81 @@
+function getFiles():: strings:
+	loop all files of dir path "plugins/Skript/scripts":
+		if extension of loop-value != "gs":
+			continue 
+		add normalized of loop-value to {_files::*}
+	return {_files::*}
+
+function compileFile(file: string):
+
+	loop getFiles():
+		set {GS::uuid} to initFile()
+		set {_file} to file({GS::uuid})
+		loop getLines({_file}):
+			tokenizeLine(loop-value)
+
+# FOR LATER
+
+function compileLine(line: string):
+	###
+
+	fn for:
+		Handle semicolons
+		Remove comments
+		Handle brackets
+
+	fn for:
+		Tokenizing
+		Converting
+
+	👍
+
+	help no please god no please
+	
+	fti tion(wow) NO
+
+	fction
+
+	fun()
+
+fnncntinon
+	###
+
+function tokenizeLine(line: string):: strings:
+	set {_type} to instanceOf({_line})
+	if {_type} = "variable":
+		tokenizeVariable({_line})
+	else if {_type} = "condition":
+		tokenizeVariable({_line})
+	else if {_type} = "effect":
+		tokenizeVariable({_line})
+	else if {_type} = "whitespace":
+
+	else if {_type} = "bracket":
+
+	else if {_type} = "comment":
+
+	else:
+		throwError("Whoa bud, that's not a thing")
+
+function file(uuid: string):: string:
+	return "plugins/Skript/scripts/GreaterSkript/%{_uuid}%.sk"
+
+function initFile(create: boolean = true):: string:
+	set {_uuid} to random uuid
+	add {_uuid} to {GS::uuids::*}
+	if {_create} = true:
+		create file path "plugins/Skript/scripts/GreaterSkript/%{_uuid}%.sk"
+	return {_uuid}
+
+
+function primeDirectory():
+	delete directory path "plugins/Skript/scripts/GreaterSkript/"
+
+function fileExists(uuid: string):: boolean:
+	return whether file path "plugins/Skript/scripts/GreaterSkript/%{_uuid}%.sk" exists
+
+function getLines(file: string):: strings:
+	return content of file path {_file}
+
+function setLines(file: string, lines: strings):
+	set content of file path {_file} to {_lines::*}

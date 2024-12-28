@@ -1,0 +1,244 @@
+
+###
+
+estimates
+nuutrai = 1200
+miberss = 1750
+
+
+###
+for index, value in list {
+
+}
+
+for v in  {
+    
+}
+
+for _, value in list {
+    
+}
+
+set {_indexes::*} to indexes of {_list::*}
+loop {_list::*}
+    value = loop-value
+    index = {_indexes::%loop-counter%}
+
+
+
+for i in vars {
+
+}
+
+for (var i=0, i < 10, i++) {
+    
+}
+
+
+var 
+
+
+on script load {
+	var entiity = isSet()
+	global isSet.health()
+
+	vvv
+
+	{isSet}.called()
+
+}
+
+
+isSet.
+
+
+{-vars::<uuid>::*} [
+	isSingle-global-isSet
+	isSingle-local-isSet
+	isList-is
+]
+
+
+GreaterSkript/<uuid>.sk ->
+
+on script load:
+
+
+entity
+global entity
+
+entity.health()
+
+entity.health()
+
+
+
+
+
+@nuutrai
+
+best idea for boolean logic
+convert each expression into a true / false using whether <condition>
+then we can make a boolean parser
+which can either be a bunch of functions like ORAND(bool, bool, bool) ANDANDOR(bool,bool,bool,bool), ANDORANDORORANDOR()
+or we just tokenize again and do that.
+
+
+
++=
+/=
+-=
+*=
+^=
+
+++ #done (ish)
+-- #done (ish)
+
+Yesssss
+Yessssss
+
+We also need to find a way to very much rearrange the tokens for conditions
+Since we can have stuff like (!player.isWhat())
+first letter of token::1 = !, append not inbetween <if> and <property> 
+That's what I was thinking. Could we do <append !>= so it won't mess up?
+possibly, it might bug with things that cant be compared
+like
+Hmmmm
+if {_obj} != set: #<- doesn't work
+FIXED!!! 
+if (whether {_obj} is set) = true:
+^^^^
+what if we just calculate ! at the end
+we cant convert "(cond1 || cond2) && cond3".
+at all.
+
+if any:
+  if all:
+    cond1
+	cond2
+  cond3
+then:
+  dont work.
+
+Can we do the thing were it's like 
+
+i was thinking it could compile to a functi
+
+Oh OH OHHHH
+Pre determine them?
+what do you mean
+So, we basically do uhhhh, hold on
+
+(cond1 && cond2) || cond3 ->
+
+set {_var} to 20 
+set {_bean} to 213 Absolutely, this is like tea
+
+
+We could. I was also thinking of just like, taking tokens and then using those to further determine stuff like:
+ObjOne <compare type>
+
+we should do (property of {_token}), as that will 1. parse quicker, 2. work with more syntax, I'm pretty sure ive seen 
+a couple cases where the syntax wont allow for x's property
+like NBT
+nbt of %object% works
+%object%'s nbt doesnt.
+
+Hmmm, okie dokes. Okay, hold on
+
+Maybe that works
+
+Works
+
+`
+
+[
+	e
+	.
+	p
+]
+
+e in prevToken
+
+
+[
+	p
+	of
+	e
+]
+
+`
+
+
+{_var} = {_entity}.isTicking()
+
+[
+	var
+	ticks
+	=
+	entity
+	.
+	isTicking()
+]
+
+convertCurlyBraces()
+
+.is = " is "
+.has
+.contains("")
+
+entity.has
+
+if ({_entity}.isTicking()) {
+
+}
+
+{_entity} is ticking
+
+local var {_var} = var
+mem var {-var} = var
+
+entity
+
+var global wow = true
+          ^
+{_initRecord} true
+{_token} global
+{_prevToken} var
+var wow = true
+	   ^
+		
+{_initRecord} true
+{_token} wow
+{_prevToken} var
+
+		###
+
+        var wow
+		var local wow = 1
+		wow = 5 
+               {_var}
+		var [global]   = var 
+		var loc[al]    = _var
+		var mem[ory]   = -var
+        const 		   = @var
+
+        ###
+
+
+
+
+For bracket indentation:
+	Have a check for "{" "}" and then add that to a token for the next line, or have the next token's indentation on the end of the current token's token list
+	Then when actually writing to the file, have an indentation counter or something that, if it goes up, add a colon and increase the indentation
+	🤯
+
+
+	if ( NOT player PROPERTY health == true ) INCINDENT 💥🚗 OH NO!!!
+
+	if (!player.isOnline()) { send "hi" }
+
+	COND NOT player PROPERTY isOnline +INDENT send " hi " -INDENT
+
+	NOTE:
+	WHEN DONE, TRY +INDENT -INDENT VAR NAMES :O

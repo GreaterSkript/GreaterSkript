@@ -1,0 +1,11 @@
+[1:*.|-.]%GSvariable: var%.%string: prop%() : %prop% of {(1:`*.`?``)(1:`-.`?`-`)(1:``?`_`)%var%}
+
+Replaces are going to be, messy
+
+Optional   ID  TYPE INDICATOR   TYPE      COMPAR
+[          2   ::               REPLACE   : \["->\:\: | \[\]->\:\:* | \[->\:\: | \]-> ]
+
+crying
+This would be a more uhhhh... adaptive way to write this
+☺
+wHAT the fuck

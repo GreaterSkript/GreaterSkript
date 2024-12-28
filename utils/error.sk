@@ -1,0 +1,7 @@
+function throwError(error: string):
+	log("&cError on line %{dotConvert::Index}%:%{dotConvert::Char} ? "?"% in %{dotConvert::File}%:")
+	log("&c%{_error}%")
+
+local function log(m: string):
+	send {_m} to all players where [input has permission "op"]
+	send {_m} to console

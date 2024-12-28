@@ -1,0 +1,10 @@
+function lerp(h: int):: number:
+    if {_h} > 8675:
+        set {_h} to 8675
+    if {_h} < 0:
+        set {_h} to 0
+
+    return {_h}/8675
+
+on load:
+    broadcast lerp(900)

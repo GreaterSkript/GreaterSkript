@@ -1,0 +1,114 @@
+# FIX EMPTY TOKEN WHEN COMPARATOR IS ABSENT
+
+function tokenizeCondition(line: string):: strings:
+	set {_i} to 0
+	set {_token} to ""
+
+	set {_j} to length of {_line}
+
+	while {_findEndIndex} != true:
+		set {_char} to character at {_j} in {_line}
+		if {_char} = ")":
+			set {_lastIndexOfCondition} to {_j}
+			set {_findEndIndex} to true
+		remove 1 from {_j}
+		if {_j} = 0:
+			set {_lastIndexOfCondition} to -1
+			set {_findEndIndex} to true
+
+	if {_lastIndexOfCondition} = -1:
+		return "INVALID CONDITION"
+
+	while {_findCondition} != true:
+		add 1 to {_i}
+		set {_char} to character at {_i} in {_line}
+
+		if all:
+			{_record} != true
+			{_char} = "("
+		then:
+			set {_record} to true
+			continue
+		if {_record} != true:
+			continue
+
+		if {_char} = " ":
+			continue
+
+		if {_char} = ")":
+			if {_i} = {_lastIndexOfCondition}:
+				add {_token} to {_tokens::*}
+				set {_findCondition} to true
+				continue
+
+		if {_gettingProperty} = true:
+			if {_char} = "(":
+				set {_gettingProperty} to false
+				add {_token}, and "SHUWA-S" to {_tokens::*}
+				set {_token} to ""
+				set {_getShuwa} to true
+				continue
+		else if {_getShuwa} = true:
+			if {_char} = ")":
+				set {_getShuwa} to false
+				add {_token}, and "SHUWA-E" to {_tokens::*}
+				set {_token} to ""
+				delete {_gettingProperty}
+				delete {_getShuwa}
+				continue
+
+		if {_char} = ".":
+			add {_token}, and "PROPERTY" to {_tokens::*}
+			set {_token} to ""
+			set {_gettingProperty} to true
+			continue
+
+		if {_char} = "=":
+			if {_token} != "":
+				# broadcast true
+				# broadcast {_token}
+				# broadcast {_char}
+				add {_char} to {_token}
+				add {_token} to {_tokens::*}
+				set {_token} to ""
+				set {_expectingCompare} to true
+				continue
+
+		add {_char} to {_token}
+
+		if {_token} = "!":
+			set {_nextChar} to character at {_i} + 1 in {_line}
+			if {_nextChar} != "=":
+				set {_token} to "NOT"
+				add {_token} to {_tokens::*}
+				set {_token} to ""
+		
+		if {_token} = "(" or ")":
+			add {_token} to {_tokens::*}
+			set {_token} to ""
+
+	if last element of {_tokens::*} contains "=":
+		throwError("ERROR!")
+		return ""
+
+	if {_expectingCompare} != true:
+		add "==", and "true" to {_tokens::*}
+
+	return {_tokens::*}
+
+
+		#!player.isProp() != true
+
+		#!player.getProp() == true
+
+		#[
+		#	NOT
+		#	player
+		#	PROPERTY
+		#
+		#]
+
+		#{_token} player
+		#{_char} .
+		#{_gettingProperty} true
+		#

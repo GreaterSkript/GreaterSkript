@@ -1,0 +1,97 @@
+function tokenizeVariable(line: string):: strings:
+	set {_i} to 0
+	set {_token} to ""
+
+	set {_findEndIndex} to length of {_line}
+
+	while {_findVariable} != true:
+		add 1 to {_i}
+		set {_char} to character at {_i} in {_line}
+
+		# get the variable init keyword 
+		if {_record} isn't set:
+			if isTokenInit({_token}) = true:
+				set {_record} to "init"
+				set {_prevToken} to {_token}
+				add {_token} to {_tokens::*}
+
+				# "var" | "const" -> {_tokens::*}
+				
+				set {_token} to ""
+				continue
+			else:
+				add {_char} to {_token}
+				continue
+		
+		
+		# get whatever this is
+
+		if {_char} = " ":
+			if {_record} = "init":
+				if isVarState({_token}) = true:
+				
+					set {_state} to finishState({_token})
+					set {_prevToken} to {_state}
+					set {_token} to ""
+					set {_record} to "name"
+					add {_state} to {_tokens::*}
+
+					continue
+
+				# else if isTokenInit({_prevToken}) = true:
+				# 	broadcast {_token}
+				# 	continue
+
+				if {_token} != "":
+					# broadcast {_token}
+					# In this case, {_token} is the name
+					add ("local" and {_token}) to {_tokens::*}
+					set {_prevToken} to {_token}
+					set {_token} to ""
+					set {_record} to "equal"
+					continue
+
+			else if {_record} = "name":
+
+				if all:
+					isVarState({_token}) = true
+					{_token} = "="
+
+				then:
+					throwError("Invalid Name!")
+					return "#"
+
+				add {_token} to {_tokens::*}
+				set {_token} to ""
+				set {_record} to "equal"
+
+			else if {_record} = "equal":
+
+				if {_token} != "=":
+					throwError("Invalid Equal!")
+					return {_token}
+
+				add {_token} to {_tokens::*}
+				set {_token} to ""
+				set {_record} to "value"
+			
+
+		if {_char} = " ":
+			continue
+
+		add {_char} to {_token}
+
+		if {_i} = {_findEndIndex}:
+			if {_record} = "value":
+				add {_token} to {_tokens::*}
+				set {_findVariable} to true
+				
+				continue
+
+			throwError("Uh oh, you fuck'id up'id")
+			return "#"
+			# tokenizeExpression()	
+
+	addVar({GS::uuid}, {_tokens::*})
+
+	return {_tokens::*}

@@ -1,0 +1,5 @@
+command /gs [<text>] [<text>]:
+	trigger:
+		if arg-1 = "reload":
+			loop getFiles():
+				compileFile(getLines(loop-value))

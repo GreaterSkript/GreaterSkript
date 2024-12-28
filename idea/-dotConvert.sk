@@ -1,0 +1,91 @@
+command /wow [<text>]:
+	trigger:
+		send arg-1
+		# convertFile("plugins/Skript/scripts/wow.txt")
+
+function convertFiles():
+	set {_files::*} to getFiles()
+	loop {_files::*}:
+
+		if loop-value contains "dotConvert.sk":
+			continue
+
+		convertFile(loop-value)
+
+		wait 2 ticks
+	delete {dotConvert::File}
+
+function convertFile(file: string):
+	set {dotConvert::File} to {_file}
+	set {_lines::*} to getLines({_file})
+
+	loop {_lines::*}:
+		set {dotConvert::Line} to loop-value
+		set {dotConvert::Index} to loop-index
+
+		set {_lines::%{dotConvert::Index}%} to findAndConvert({dotConvert::Line})
+			
+	setLines({_file}, {_lines::*})
+	delete {dotConvert::Line}
+	delete {dotConvert::Index}
+	broadcast "cvd fl"
+
+function getFiles():: strings:
+	loop all files of dir path "plugins/Skript/scripts":
+		add normalized of loop-value to {_files::*}
+
+	return {_files::*}
+
+function getLines(file: string):: strings:
+	return content of file path {_file}
+
+function setLines(file: string, lines: strings):
+	set content of file path {_file} to {_lines::*}
+
+function findAndConvert(line: string):: string:
+
+	set {_chars::*} to {_line} split by ""
+
+	loop {_chars::*}:
+		set {_char} to loop-value
+		set {dotConvert::Char} to loop-index
+		if {_char} = "{":
+			add "v" to {_syntaxOrder::Type::*}
+			add {dotConvert::Char} to {_syntaxOrder::Index::*}
+		else if {_char} = "%%":
+			if last element of {_syntaxOrder::Type::*} = "e":
+				delete {_syntaxOrder::Type::%size of {_syntaxOrder::Type::*}%}
+				delete {_syntaxOrder::Index::%size of {_syntaxOrder::Index::*}%}
+			else:
+				add "e" to {_syntaxOrder::Type::*}
+				add {dotConvert::Char} to {_syntaxOrder::Index::*}
+		else if {_char} = "}":
+			if last element of {_syntaxOrder::Type::*} isn't "v":
+				throwError("Incorrect amount of brackets or %% in your variable")
+				return {_line}
+			else:
+				delete {_syntaxOrder::Type::%size of {_syntaxOrder::Type::*}%}
+				delete {_syntaxOrder::Index::%size of {_syntaxOrder::Index::*}%}
+		else if {_char} = ".":
+			if last element of {_syntaxOrder::Type::*} is "v":
+				set {_char} to "::"
+
+		set {_chars::%loop-index%} to {_char}
+	
+	delete {dotConvert::Char}
+
+	if size of {_syntaxOrder::Type::*} isn't 0:
+		loop {_syntaxOrder::Index::*}:
+			set {dotConvert::Char} to loop-value
+		throwError("Incorrect amount of brackets or %% in your variable")
+		return {_line}
+
+	return join {_chars::*} by ""
+
+function throwError(error: string):
+	log("&cError on line %{dotConvert::Index}%:%{dotConvert::Char} ? "?"% in %{dotConvert::File}%:")
+	log("&c%{_error}%")
+
+local function log(m: string):
+	send {_m} to all players where [input has permission "op"]
+	send {_m} to console

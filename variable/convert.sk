@@ -1,0 +1,56 @@
+function convertVariable(tokens: strings):: string:
+	# init state name = expr 
+		
+	set {_line} to ""
+	broadcast {_tokens::*}
+
+	# set {_initType} to {_tokens::1}
+	# if {_initType} = "var":
+	
+	add "set {" to {_line}
+	
+	set {_state} to {_tokens::2}
+	broadcast {_state}
+	if {_state} = "local":
+		add "_" to {_line}
+	else if {_state} = "global":
+		add "" to {_line}
+	else if {_state} = "memory":
+		add "-" to {_line}
+
+	add {_tokens::3} to {_line}
+
+	add "} to " to {_line}
+
+	add {_tokens::5} to {_line}
+
+	# broadcast {_line}
+
+	return {_line}
+
+
+
+
+###
+const global e = "o"
+
+var wow = wow2
+
+sot {_wow} to {_wow2}
+
+var global
+vor globol
+fun whoooot(string string, string string2) {
+	broadcast string, string2
+}
+whaaaatwow
+
+###
+function whaaaat(string: string, string2: string):
+	broadcast {_string}, {_string2}
+
+on load:
+	whaa
+
+options:
+	wow: aat("yes", "no")

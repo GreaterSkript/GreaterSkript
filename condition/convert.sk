@@ -1,0 +1,17 @@
+function convertCondition(tokens: strings):: string:
+	loop {_tokens::*}:
+		set {_token} to loop-value
+		
+		if {_isProperty} = true:
+			set {_isProperty} to false
+			if {_token} doesn't end with "()":
+				throwError("Unknown property %{_token}%")
+				return join {_tokens::*} by " " 
+
+			replace "()" with "" in {_token}
+			set {_token} to "%{_token}% of %{_prevToken}%"
+			delete {_converted::%size of {_converted::*}%}
+		
+		if {_token} = "==":
+			set {_token} to "="
+		

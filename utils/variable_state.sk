@@ -1,0 +1,20 @@
+function isVarState(token: string):: boolean:
+	if any:
+		{_token} = "global"
+		{_token} = "loc"
+		{_token} = "local"
+		{_token} = "mem"
+		{_token} = "memory"
+	then:
+		return true
+	return false
+
+function isTokenInit(token: string):: boolean:
+	return whether {_token} = "var"
+
+function finishState(state: string):: string:
+	if {_state} = "loc":
+		add "al" to {_state}
+	else if {_state} = "mem":
+		add "ory" to {_state}
+	return {_state}

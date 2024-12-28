@@ -1,0 +1,199 @@
+function convert(line: string): string:
+	set {_test} to "server.broadcast\([""]%%string: message%%[""]\) : broadcast %%message%%"
+
+	set {_test::*} to {_test} split by " : "
+
+	set {_size} to 1
+
+	set {_expressions::%{_size}%} to {_test::1}
+	set {_conversions::%{_size}%} to {_test::2}
+
+	set {_i} to 0
+	set {_exprIndex} to 0
+
+	loop ({_line} split by ""):
+
+		while {_findConversion} != true:
+			{_expressions::*}
+
+
+function isInstanceOf(line: string, expr: string):: boolean:
+	set {_exprChars::*} to {_expr} split by ""
+	set {_lineChars::*} to {_line} split by ""
+	set {_isExpression} to false
+	set {_i} to 1
+	set {_exprChar} to {_exprChars::%{_i}%}
+	set {_char} to {_lineChars::%{_i}%}
+	delete {_exprChars::%size of {_exprChars::*}%}
+	delete {_lineChars::%size of {_lineChars::*}%}
+	broadcast size of {_exprChars::*}
+	broadcast size of {_lineChars::*}
+	broadcast {_exprChars::*}
+	broadcast ""
+	broadcast {_lineChars::*}
+	
+	while true = true:
+
+		if any:
+			{_i} > 1000
+			{_iExpr} > 1000
+		then:
+			broadcast {_i}
+			broadcast {_iExpr}
+			broadcast "whoa"
+			return false
+
+		if {_exprChar} = "%%":
+			set {_isExpression} to true
+			set {_iExpr} to {_iExpr} ? {_i}
+			while {_gotNextChar} != true:
+				add 1 to {_iExpr}
+				if {_exprChars::%{_iExpr}%} = "%%":
+					add 1 to {_iExpr}
+					set {_exprChar} to {_exprChars::%{_iExpr}%}
+					set {_gotNextChar} to true
+			delete {_gotNextChar}
+
+			add 1 to {_i}
+			set {_char} to {_lineChars::%{_i}%}
+			continue
+
+		else if {_isExpression} = true:
+			broadcast "isExpression"
+			if {_checkNext} = true:
+				if {_char} != {_exprChar}:
+					broadcast "char no exprchar in check"
+					broadcast "%{_exprChars::%{_iExpr}%}% - %{_iExpr}%"
+					broadcast "%{_lineChars::%{_i}%}% - %{_i}%"					
+					broadcast {_isExpression}
+					return false
+				add 1 to {_i}
+				add 1 to {_iExpr}
+				set {_char} to {_lineChars::%{_i}%}
+				set {_exprChar} to {_exprChars::%{_iExpr}%}
+				continue
+				
+			if {_char} = {_exprChar}:
+				set {_checkNext} to true
+				broadcast {_char}
+				broadcast {_exprChar}				
+
+				add 1 to {_i}
+				add 1 to {_iExpr}
+				set {_char} to {_lineChars::%{_i}%}
+				set {_exprChar} to {_exprChars::%{_iExpr}%}
+				set {_isExpression} to false
+				continue
+				
+
+			broadcast {_char}
+			broadcast {_exprChar}		
+
+			add 1 to {_i}
+			set {_char} to {_lineChars::%{_i}%}
+			continue
+
+		else:
+			add 1 to {_iExpr}
+			set {_exprChar} to {_exprChars::%{_iExpr}%}			
+
+		add 1 to {_i}
+		set {_char} to {_lineChars::%{_i}%}
+
+		broadcast {_char}
+		broadcast {_exprChar}
+		broadcast ""
+
+		if {_exprChar} = "%%":
+			set {_isExpression} to true
+			set {_iExpr} to {_iExpr} ? {_i}
+			while {_gotNextChar} != true:
+				add 1 to {_iExpr}
+				if {_exprChars::%{_iExpr}%} = "%%":
+					add 1 to {_iExpr}
+					set {_exprChar} to {_exprChars::%{_iExpr}%}
+					set {_gotNextChar} to true
+			delete {_gotNextChar}
+
+			add 1 to {_i}
+			set {_char} to {_lineChars::%{_i}%}
+			continue
+
+		if "%{_char}%" != "%{_exprChar}%":
+			broadcast "char no exprchar"
+			broadcast "%{_exprChars::%{_iExpr}%}% - %{_iExpr}%"
+			broadcast "%{_lineChars::%{_i}%}% - %{_i}%"		
+			broadcast {_isExpression}
+			return false
+
+		if {_lineChars::%{_i}%} isn't set:
+			return true
+		
+
+
+###
+function convertEffect(tokens: strings):: string:
+
+	loop {_tokens::*}:
+		set {_token} to loop-value
+		
+		if {_isProperty} = true:
+			set {_isProperty} to false
+
+			if {_token} doesn't end with "()":
+				throwError("Unknown property %{_token}%")
+				return join {_tokens::*} by " " 
+
+			replace "()" with "" in {_token}
+			set {_token} to "(%{_token}% of %{_prevToken}%)"
+			delete {_converted::%size of {_converted::*}%}
+
+		if {_token} = "var":
+			set {_token} to "set"
+			
+		else if {_token} = "++":
+
+			# i should change this later down 
+			# the add 1 to doesnt always work with things. ): i dont know why, i just remember theres a couple things that dont support adding.
+			# AND setting is faster parse.
+			set {_token} to "add 1 to"
+
+		else if {_token} = "--":
+			set {_token} to "remove 1 from"
+
+		else if {_token} = "=":
+			set {_token} to "to"
+
+		else if {_token} = ".":
+			set {_isProperty} to true
+			continue
+		
+		set {_prevToken} to {_token}
+		add "%{_token}% " to {_converted::*}
+
+	return join {_converted::*} by ""
+
+
+
+var entity =
+
+entity.get()
+
+
+{vars::%event%::*} [
+	isList-entity
+	lol
+	
+	entity["wow!"][1]
+
+	{entity::*}
+
+	example::*
+	example:1
+	example::2
+]
+
+
+
+###
+

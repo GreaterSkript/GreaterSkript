@@ -1,0 +1,45 @@
+(cond1 && cond2)
+= 
+if whether cond1 = true:
+	if whether cond2 = true:
+		return true
+return false
+
+(cond1 || cond2)
+= 
+if whether cond1 = true:
+	return true
+else:
+	if whether cond2 = true:
+		return true
+return false
+
+(cond || cond2) && cond3
+
+if whether cond1 = true:
+	# && cond3
+	if whether cond3 = true:
+		return true
+else:
+	if whether cond2 = true:
+		# && cond3
+		if whether cond3 = true:
+			return true
+return false
+
+
+
+"(cond || cond2) && cond3"
+
+if whether cond1 = true:
+	# && cond3
+	if whether cond3 = true:
+		set {_outcome} to true
+else:
+	if whether cond2 = true:
+		# && cond3
+		if whether cond3 = true:
+			set {_outcome} to true
+if {_outcome} is true:
+	delete {_outcome}
+

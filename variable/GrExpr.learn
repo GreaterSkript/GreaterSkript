@@ -1,0 +1,44 @@
+Expr : conversion
+
+%string: name% : {%name%}
+
+%string: name%.%string: property%() : %property% of %name%
+
+wow.me() -> me of wow
+
+[1:\*|wow]%string: name%.%string: property%\(\) : %property% of %name% (1:`\*`?`global`)(1:`wow`?`popin'`)
+
+[] with \
+() with \
+*  with \
+|  with \
+:  with \
+?  with \
+`  with \
+%  with \
+# -
+# >
+
+property[1:(1:%number%)|(2:%string%+)] : property Send (1::2:`*+`?`"%string%"`)
+
+4.0
+or
+propertyhello+ -> property Send "hello"
+
+%player%.send(%string%)
+->
+send %string% to %player%
+
+%player: player%.send\(%string: message%\) : send %message% to %player%
+
+
+
+if \(%GSexpression: exprOne%[1: [1: ](2:%string: comparator%)[3: ](4:%GSexpression: exprTwo%)]) : if %exprOne%(1::4:`*`?`%comparator% %exprTwo%`)
+
+if player can see chat colours
+
+if chance of 50
+
+if (chance(50))
+
+if (player.canSeeChatColour())

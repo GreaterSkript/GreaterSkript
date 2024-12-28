@@ -1,0 +1,1 @@
+%string: name%[1: \[%GSlistsuffix: suffix%\]] : %name%(1:`*`?`%suffix%`)

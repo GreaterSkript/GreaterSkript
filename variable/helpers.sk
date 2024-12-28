@@ -1,0 +1,98 @@
+function getVars(uuid: string):: strings:
+    return {GS::vars::%{_uuid}%::*}
+
+function addVar(uuid: string, tokens: strings):
+
+    add "isSingle" to {_properties::*}
+    if {_tokens::5} contains "[]":
+        set {_properties::1} to "isList"
+    add {_tokens::2} to {_properties::*}
+    add {_tokens::3} to {_properties::*}
+
+    set {_props} to join {_properties::*} by "-"
+    set {GS::vars::%{_uuid}%::%{_tokens::3}%} to true
+    set {_size} to size of {GS::vars::%{_uuid}%::%{_tokens::3}%::*}
+    set {GS::vars::%{_uuid}%::%{_tokens::3}%::%{_size}%} to {_props}
+    
+###
+So
+We just store the name in that, and if it exists, then we can further search for it!!!
+Is that a good idea?
+i kind of dont get it still dont get it. :)
+
+UHhhhh, how do we differenciate between calling a global and a local/mem var?
+
+Or do we just not? But then no, but maybe?
+uhm
+yeah? i think? maybe?
+
+global.entity.getHealth()
+memory.entity.getHealth()
+entity.getHealth()
+
+i think the main downside is the time to write 
+but i dont think you would have to do this in many
+situations because normally you wont have 2 different
+state types of entity
+what if we have
+entity
+and
+entity for global
+:eye:
+no i think its fair
+
+oh true.
+Those are kind of scary since we have arithmetic operations
+However we could leave that part up to debate, but I do like that *.entity() <- this is good very much so
+
+Exactly :)
+
+we need to handle x ? y mhm 
+
+we should be able to just pass that directly through `{tokenizeExpr} ? {tokenizeExpr}` and convert it directly since it already exists 
+look at chat lobby
+Lmao, the #get from entity.get() isn't white for me, weird, wait, like my entire thing is flipped
+wired
+im going blind this looks like an eye ^
+Which one?
+
+Opinions from the voice chat maybe?
+I think that (global. memory.) should be okay since stuff like Java has `this.`
+And they're very similar
+God I hate interupting :sob:
+Llllmmmmffffaaaaoooo
+ANT
+same lmfaoant
+they arnt skripters but go for it
+they still have programming knowledge 
+yeah
+
+{-vars::<uuid>::*} [
+	isSingle-global-isSet
+	isSingle-local-isSet
+	isList-is
+]
+
+var global BedwarsSession = []
+
+{_size} = 4
+
+I think .add should just convert to the add since when compiled, it'd end up like:
+    loop {BedwarsSession::1::players::*}:
+        if index = 1
+            
+You know?
+I also found out why add _ to _ loops the list why
+i get what you are s
+
+Cause it stops this from happening vvv
+this is fair. i get it now
+
+BedwarsSession[1]["players"].add("Nuutrai", 1) {_size} = 5
+BedwarsSession[1]["players"].remove("Miberss") {_size} = 4
+BedwarsSession[1]["players"].add("md5nake") {_size} = 5
+
+set {BedwarsSession::1::players::%{_size}%} to "Nuutrai"
+
+
+###

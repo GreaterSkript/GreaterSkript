@@ -1,0 +1,1 @@
+%entity: player%.send\(["]%string: message%["]\) : send %message% to %player%

@@ -1,0 +1,4 @@
+# FIX DOUBLE ENDING SQUARE BRACKET
+
+"%string: name%"[1: (1:\]\[%GSlistsuffix: suffix%) | (2:\]\[) ] : %name%(1::1:`\]\[*`?`\:\:%suffix%`)(1::2:`\]\[\]`?`\:\:\*`)
+%integer: name%[1: (1:\]\[%GSlistsuffix: suffix%) | (2:\]\[) ] : %name%(1::1:`\]\[*`?`\:\:%suffix%`)(1::2:`\]\[\]`?`\:\:\*`)

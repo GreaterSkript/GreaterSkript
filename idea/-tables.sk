@@ -1,0 +1,31 @@
+local player = {
+  x=1
+  y=5
+}
+broadcast player.x # "1"
+broadcast player.y # "5"
+
+broadcast player["x"]
+
+
+
+local w = 1
+local wow = 100
+"%wow%!" = "1ow!"
+
+
+{_char} o
+{_token} w
+
+{_checkVar} char added to token
+
+
+if element of {vars::<uuid>} contains {_check} :
+
+
+
+{vars::<uuid>::*} [
+  wow
+]
+
+"%{_wow}%"

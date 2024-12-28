@@ -1,0 +1,1 @@
+if \(%GSexpression: exprOne%[1: [1: ](2:%string: comparator%)[3: ](4:%GSexpression: exprTwo%)]) : if %exprOne%(1::4:`*`?`%comparator% %exprTwo%`)

@@ -1,0 +1,53 @@
+function tokenizeExpression(expression: string):: strings:
+
+	set {_objects::*} to {_expression} split by " " 
+	set {_uuid} to {GS::uuid}
+	set {_i} to 0
+
+	loop {_objects::*}:
+		set {_obj} to loop-value
+		
+		add 1 to {_i}
+		set {_char} to character at {_i} of {_obj}
+		set {_nextChar} to character at {_i} + 1 of {_obj}
+	
+		if all:
+			{_char} = "*"
+			{_nextChar} = "."
+		then:
+			set {_var::*} to {_obj} split by "."
+			set {_recording} to "variable"
+
+		# Call isVariable at some point
+
+		if {_recording} = "variable":
+
+			# Do more programming nice.
+
+			add ("CALLEDVAR" and "%{_obj}%") to {_tokens::*}
+
+# We need to make that lang file, we can't be doing stuff like this
+
+function handleVariables(obj: string, uuid: string):: boolean:
+
+	set {_var} to {_obj}
+	set {_scope} to "local"
+
+	if all:
+		{_obj} contains "["
+		{_obj} contains "]"
+	then:
+		set {_isList} to true
+		set {_var::*} to {_obj} split by "["
+		set {_var} to {_var::1}
+	
+	if {_obj} starts with 
+
+	if {GS::vars::%{_uuid}%::%{_var}%} is set:
+		# set {_recording} to "C-variable"
+		set {_var}
+
+		set 
+
+		add ("CALLEDVAR" and "%%%{_obj}%") to {_tokens::*}
+		
