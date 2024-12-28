@@ -1,5 +1,5 @@
 function convert(line: string): string:
-	set {_test} to "server.broadcast\([""]%%string: message%%[""]\) : broadcast %%message%%"
+	set {_test} to "server.broadcast(%%message%%) : broadcast %%message%%"
 
 	set {_test::*} to {_test} split by " : "
 
@@ -8,16 +8,24 @@ function convert(line: string): string:
 	set {_expressions::%{_size}%} to {_test::1}
 	set {_conversions::%{_size}%} to {_test::2}
 
-	set {_i} to 0
-	set {_exprIndex} to 0
+	# set {_i} to 0
+	# set {_exprIndex} to 0
 
-	loop ({_line} split by ""):
+	# Change to while loop maybe if better
 
-		while {_findConversion} != true:
-			{_expressions::*}
+	loop {_expressions::*}:
+		set {_i} to loop-index
+		set {_expr} to loop-value
+
+		set {_objs::*} to isInstanceOf({_line}, {_expr})
+
+		if {_objs::1} != false:
+			continue
+		
+		broadcast {_objs::*} where [index isn't 1]
 
 
-function isInstanceOf(line: string, expr: string):: boolean:
+function isInstanceOf(line: string, expr: string):: objects:
 	set {_exprChars::*} to {_expr} split by ""
 	set {_lineChars::*} to {_line} split by ""
 	set {_isExpression} to false
@@ -26,6 +34,7 @@ function isInstanceOf(line: string, expr: string):: boolean:
 	set {_char} to {_lineChars::%{_i}%}
 	delete {_exprChars::%size of {_exprChars::*}%}
 	delete {_lineChars::%size of {_lineChars::*}%}
+	set {_token} to ""
 	# broadcast size of {_exprChars::*}
 	# broadcast size of {_lineChars::*}
 	# broadcast {_exprChars::*}
@@ -54,12 +63,16 @@ function isInstanceOf(line: string, expr: string):: boolean:
 					set {_gotNextChar} to true
 			delete {_gotNextChar}
 
+			add {_char} to {_token}
+
 			add 1 to {_i}
 			set {_char} to {_lineChars::%{_i}%}
 			continue
 
 		else if {_isExpression} = true:
 			# broadcast "isExpression"
+
+
 			if {_checkNext} = true:
 				if {_char} != {_exprChar}:
 					# broadcast "char no exprchar in check"
@@ -84,8 +97,14 @@ function isInstanceOf(line: string, expr: string):: boolean:
 				set {_exprChar} to {_exprChars::%{_iExpr}%}
 				set {_isExpression} to false
 				delete {_checkNext}
+
+				# broadcast {_token}
+				add {_token} to {_tokens::*}
+				set {_token} to ""
+
 				continue
-				
+			
+			add {_char} to {_token}
 
 			# broadcast {_char}
 			# broadcast {_exprChar}		
@@ -116,6 +135,8 @@ function isInstanceOf(line: string, expr: string):: boolean:
 					set {_gotNextChar} to true
 			delete {_gotNextChar}
 
+			add {_char} to {_token}
+
 			add 1 to {_i}
 			set {_char} to {_lineChars::%{_i}%}
 			continue
@@ -128,7 +149,7 @@ function isInstanceOf(line: string, expr: string):: boolean:
 			return false
 
 		if {_lineChars::%{_i}%} isn't set:
-			return true
+			return true, and {_tokens::*}
 		
 
 
