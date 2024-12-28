@@ -26,11 +26,11 @@ function isInstanceOf(line: string, expr: string):: boolean:
 	set {_char} to {_lineChars::%{_i}%}
 	delete {_exprChars::%size of {_exprChars::*}%}
 	delete {_lineChars::%size of {_lineChars::*}%}
-	broadcast size of {_exprChars::*}
-	broadcast size of {_lineChars::*}
-	broadcast {_exprChars::*}
-	broadcast ""
-	broadcast {_lineChars::*}
+	# broadcast size of {_exprChars::*}
+	# broadcast size of {_lineChars::*}
+	# broadcast {_exprChars::*}
+	# broadcast ""
+	# broadcast {_lineChars::*}
 	
 	while true = true:
 
@@ -38,9 +38,9 @@ function isInstanceOf(line: string, expr: string):: boolean:
 			{_i} > 1000
 			{_iExpr} > 1000
 		then:
-			broadcast {_i}
-			broadcast {_iExpr}
-			broadcast "whoa"
+			# broadcast {_i}
+			# broadcast {_iExpr}
+			# broadcast "whoa"
 			return false
 
 		if {_exprChar} = "%%":
@@ -59,13 +59,13 @@ function isInstanceOf(line: string, expr: string):: boolean:
 			continue
 
 		else if {_isExpression} = true:
-			broadcast "isExpression"
+			# broadcast "isExpression"
 			if {_checkNext} = true:
 				if {_char} != {_exprChar}:
-					broadcast "char no exprchar in check"
-					broadcast "%{_exprChars::%{_iExpr}%}% - %{_iExpr}%"
-					broadcast "%{_lineChars::%{_i}%}% - %{_i}%"					
-					broadcast {_isExpression}
+					# broadcast "char no exprchar in check"
+					# broadcast "%{_exprChars::%{_iExpr}%}% - %{_iExpr}%"
+					# broadcast "%{_lineChars::%{_i}%}% - %{_i}%"					
+					# broadcast {_isExpression}
 					return false
 				add 1 to {_i}
 				add 1 to {_iExpr}
@@ -75,19 +75,20 @@ function isInstanceOf(line: string, expr: string):: boolean:
 				
 			if {_char} = {_exprChar}:
 				set {_checkNext} to true
-				broadcast {_char}
-				broadcast {_exprChar}				
+				# broadcast {_char}
+				# broadcast {_exprChar}				
 
 				add 1 to {_i}
 				add 1 to {_iExpr}
 				set {_char} to {_lineChars::%{_i}%}
 				set {_exprChar} to {_exprChars::%{_iExpr}%}
 				set {_isExpression} to false
+				delete {_checkNext}
 				continue
 				
 
-			broadcast {_char}
-			broadcast {_exprChar}		
+			# broadcast {_char}
+			# broadcast {_exprChar}		
 
 			add 1 to {_i}
 			set {_char} to {_lineChars::%{_i}%}
@@ -100,9 +101,9 @@ function isInstanceOf(line: string, expr: string):: boolean:
 		add 1 to {_i}
 		set {_char} to {_lineChars::%{_i}%}
 
-		broadcast {_char}
-		broadcast {_exprChar}
-		broadcast ""
+		# broadcast {_char}
+		# broadcast {_exprChar}
+		# broadcast ""
 
 		if {_exprChar} = "%%":
 			set {_isExpression} to true
@@ -120,10 +121,10 @@ function isInstanceOf(line: string, expr: string):: boolean:
 			continue
 
 		if "%{_char}%" != "%{_exprChar}%":
-			broadcast "char no exprchar"
-			broadcast "%{_exprChars::%{_iExpr}%}% - %{_iExpr}%"
-			broadcast "%{_lineChars::%{_i}%}% - %{_i}%"		
-			broadcast {_isExpression}
+			# broadcast "char no exprchar"
+			# broadcast "%{_exprChars::%{_iExpr}%}% - %{_iExpr}%"
+			# broadcast "%{_lineChars::%{_i}%}% - %{_i}%"		
+			# broadcast {_isExpression}
 			return false
 
 		if {_lineChars::%{_i}%} isn't set:
