@@ -43,13 +43,16 @@ function isInstanceOf(line: string, expr: string):: boolean:
 			# broadcast "whoa"
 			return false
 
-		if {_lineChars::%{_i}%} isn't set:
-			return true
-
 		if {_exprChar} = "%%":
 			set {_isExpression} to true
-			
-			set {_exprChar} to getNextChar(({_iExpr} ? {_i}), {_i}, {_exprChars::*})
+			set {_iExpr} to {_iExpr} ? {_i}
+			while {_gotNextChar} != true:
+				add 1 to {_iExpr}
+				if {_exprChars::%{_iExpr}%} = "%%":
+					add 1 to {_iExpr}
+					set {_exprChar} to {_exprChars::%{_iExpr}%}
+					set {_gotNextChar} to true
+			delete {_gotNextChar}
 
 			add 1 to {_i}
 			set {_char} to {_lineChars::%{_i}%}
@@ -72,8 +75,8 @@ function isInstanceOf(line: string, expr: string):: boolean:
 				
 			if {_char} = {_exprChar}:
 				set {_checkNext} to true
-				# broadcast "%{_char}%"
-				# broadcast "%{_exprChar}%"				
+				# broadcast {_char}
+				# broadcast {_exprChar}				
 
 				add 1 to {_i}
 				add 1 to {_iExpr}
@@ -83,8 +86,9 @@ function isInstanceOf(line: string, expr: string):: boolean:
 				delete {_checkNext}
 				continue
 				
-			# broadcast "%{_char}%"
-			# broadcast "%{_exprChar}%"		
+
+			# broadcast {_char}
+			# broadcast {_exprChar}		
 
 			add 1 to {_i}
 			set {_char} to {_lineChars::%{_i}%}
@@ -103,8 +107,14 @@ function isInstanceOf(line: string, expr: string):: boolean:
 
 		if {_exprChar} = "%%":
 			set {_isExpression} to true
-			
-			set {_exprChar} to getNextChar(({_iExpr} ? {_i}), {_i}, {_exprChars::*})
+			set {_iExpr} to {_iExpr} ? {_i}
+			while {_gotNextChar} != true:
+				add 1 to {_iExpr}
+				if {_exprChars::%{_iExpr}%} = "%%":
+					add 1 to {_iExpr}
+					set {_exprChar} to {_exprChars::%{_iExpr}%}
+					set {_gotNextChar} to true
+			delete {_gotNextChar}
 
 			add 1 to {_i}
 			set {_char} to {_lineChars::%{_i}%}
@@ -117,15 +127,10 @@ function isInstanceOf(line: string, expr: string):: boolean:
 			# broadcast {_isExpression}
 			return false
 
+		if {_lineChars::%{_i}%} isn't set:
+			return true
 		
-		
-local function getNextChar(iExpr: int, i: int, exprChars: strings):: string:
-	set {_iExpr} to {_iExpr} ? {_i}
-	while {_gotNextChar} != true:
-		add 1 to {_iExpr}
-		if {_exprChars::%{_iExpr}%} = "%%":
-			add 1 to {_iExpr}
-			return {_exprChars::%{_iExpr}%}
+
 
 ###
 function convertEffect(tokens: strings):: string:
@@ -149,9 +154,9 @@ function convertEffect(tokens: strings):: string:
 			
 		else if {_token} = "++":
 
-			i should change this later down 
-			the add 1 to doesnt always work with things. ): i dont know why, i just remember theres a couple things that dont support adding.
-			AND setting is faster parse.
+			# i should change this later down 
+			# the add 1 to doesnt always work with things. ): i dont know why, i just remember theres a couple things that dont support adding.
+			# AND setting is faster parse.
 			set {_token} to "add 1 to"
 
 		else if {_token} = "--":
