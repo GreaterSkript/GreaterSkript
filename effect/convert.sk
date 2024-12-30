@@ -1,6 +1,14 @@
 function convert(line: string): string:
 	set {_test} to "server.broadcast(%%message%%) : broadcast %%message%%"
 
+
+
+	set {_test} to "%%player%%.%%property%%() : %%property%% of %%player%%"
+	set {_test} to "%%player%%.%%property%%() : %%player%%'s %%property%%"
+
+	"%%player%%.%%property%%() : %%property%% off %%player%%"
+	"%%player%%.%%property%%() : %%property%% of %%player%%"
+
 	set {_test::*} to {_test} split by " : "
 
 	set {_size} to 1
@@ -19,11 +27,47 @@ function convert(line: string): string:
 
 		set {_objs::*} to isInstanceOf({_line}, {_expr})
 
-		if {_objs::1} != false:
-			continue
-		
-		broadcast {_objs::*} where [index isn't 1]
+		if {_objs::1} = true:
+			set {_found} to true
+			exit loop
+	
+	if {_found} != true:
+		throwError()
 
+		
+
+
+
+
+
+		###
+
+		{_name} = methodToGetName()
+		{_index} = ^
+
+		set {_exprsValues::%{_name}%} to {_index}
+
+
+		set {_indexOfTheName} size of {_objs::*} - 2 
+
+		boolean - number of tokens 
+
+		# Pick from list
+
+		{_indexOfName} = first element of {_IOTN} split by "-"
+		{_valueOfName} = second element of {_IOTN} split by "-"
+
+		check against {_exprsValues::*}
+		###
+
+
+# function testInstance():
+# 	set {_time} to unix timestamp of now
+# 	loop 60000 times:
+# 		set {_objs::*} to isInstanceOf(".server.abroaast(woww)", "send.%%thing%%.broadcast(%%message%%)")
+# 	set {_final} to unix timestamp of now
+# 	set {_diff} to {_final} - {_time}
+# 	broadcast {_diff}
 
 function isInstanceOf(line: string, expr: string):: objects:
 	set {_exprChars::*} to {_expr} split by ""
@@ -99,7 +143,8 @@ function isInstanceOf(line: string, expr: string):: objects:
 				delete {_checkNext}
 
 				# broadcast {_token}
-				add {_token} to {_tokens::*}
+				add 1 to {_tokens}
+				add "%{_tokens}%-%{_token}%" to {_tokens::*}
 				set {_token} to ""
 
 				continue
