@@ -1,4 +1,4 @@
-function instanceOf(line: string):: string:
+function lineInstanceOf(line: string):: string:
 	if {_line} starts with "if" or "else if" or "elif":
 		return "condition"
 	if {_line} starts with "var":

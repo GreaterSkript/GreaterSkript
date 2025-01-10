@@ -93,7 +93,8 @@ Event: on script load
 				├── 16
 				├── +
 				└── FunctionResult
-					└── Name: "player" 
+					└── Name: "player"
+
 
 FunctionDefinition (_draw)
 ├── Body
@@ -107,26 +108,60 @@ FunctionDefinition (_draw)
 
 4 Types of expressions:
 -	FunctionResult
--	Variable
--	Static
--	Method
+	├── Name: String
+	└── Arguments: Expressions
 
-5 Types of effects:
+-	Variable
+	└── Name: Strings
+
+-	Literal[]: It's own thing idfk
+
+-	Method
+	├── Subject
+	├── Method
+	└── Arguments
+
+4 Types of effects:
 -	Change     | +=, =
+	├── Subject
+	├── Operand
+	└── Expression
+
 -	Method     | player.getFood()
--	NoExpr     | Event.cancel()
+	├── Subject
+	├── Method
+	└── *Arguments
+	
 -	NoSubject  | wait(1 second)
-	⇅ Differenctiated Eby checking if «function» is declared
+	├── Method
+	└── Arguments
+	⇅ Differenctiated by checking if «function» is declared.
 -	Function   | Function()
+	├── Name
+	└── Arguments
 
 3 Types of Events:
--	FunctionDeclare
+-	FunctionDeclare 
+	├── Name
+	├── Arguments
+	├── ReturnType
+	└── Body
+
 -	Event
+	├── Definition
+	└── Body
+	⇅ Differenctiated by whether begins in a body
 -	Structure
+	├── Definition
+	├── *Type -> Unnessesary unless it's a native Skript thing
+	└── Body
 
 1 Type of VariableDeclare:
 -	Declare
-
+	├── Scope
+	├── Names
+	#   List
+	└── Assignments
 
 stone = player -> add to []
 broadcast "stone set"

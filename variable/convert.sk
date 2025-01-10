@@ -40,7 +40,7 @@ sot {_wow} to {_wow2}
 
 var global
 vor globol
-fun whoooot(string string, string string2) {
+fun whoooot (string string, string string2) {
 	broadcast string, string2
 }
 whaaaatwow
@@ -53,4 +53,4 @@ on load:
 	whaa
 
 options:
-	wow: aat("yes", "no")
+	wow: aat ("yes", "no")

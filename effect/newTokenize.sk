@@ -1,0 +1,53 @@
+# Handles the conversion of the tree to a set of lines written with Skript syntax
+# 
+# Returns: Skript file equivalant
+# EG. 
+function convertTree(eventTree: nbtcompound):: strings:
+	# eventTree = 
+	loop {_eventTree::*}
+
+# Tokenizes the given file into a set of trees
+# Input: (strings) The file to be tokenized
+# Returns: (strings) The tokenized trees
+function tokenizeToTrees(file: strings):: strings
+
+	convertTree({_tree})
+
+
+
+###
+function _draw()
+	cls()
+	for i = 0, 15 do
+		circfill(
+			64 + sin(t() / 2 + i / 16) * 40,
+			64 + cos(t() / 4 + i / 16) * 40,
+			i,
+			i
+		)
+	end
+end
+
+Would result in an AST like this:
+
+FunctionDefinition (_draw)
+├── Body
+	├── FunctionCall: cls()
+	└── ForLoop (i = 0, 15)
+		└── FunctionCall: circfill(...)
+			├── Argument1: 64 + sin(t() / 2 + i / 16) * 40
+			├── Argument2: 64 + cos(t() / 4 + i / 16) * 40
+			├── Argument3: i
+			└── Argument4: i
+
+{GS::Runnables::*}
+{GS::Runnable::<id>::Roots::body-<bodyid>}
+
+new nbt compound
+
+3. Semantic Analysis
+
+Lua performs some basic semantic checks:
+
+	Variable Resolution: Ensures t, sin, and cos are valid functions or variables.
+###

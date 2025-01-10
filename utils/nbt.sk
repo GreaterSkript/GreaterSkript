@@ -1,0 +1,31 @@
+function setNBT(compound: nbtcompound, type: nbttype, index: string, value: objects):
+	if "%{_type}%" contains "list":
+		set ({_type} {_index} of {_compound}) to {_value::*}
+		stop
+	
+	set ({_type} {_index} of {_compound}) to {_value::1}
+
+function getNBT(compound: nbtcompound, type: nbttype, index: string):: objects:
+	return ({_type} {_index} of {_compound})
+
+function appendNBT(compound: nbtcompound, type: nbttype, index: string, value: objects)
+	set {_l::*} to getNBT({_compound},{_type},{_index})
+	add {_value::*} to {_l::*}
+	setNBT({_compound},{_type},{_index},{_value::*})
+
+# Creates a new nbt compound with a uuid tied to it
+# Input: None
+# Returns: (nbtcompound) An empty compound 
+function initNBT():: nbtcompound:
+	# Creates a new UUID
+	set {_uuid} to a random uuid
+	# Sets GS runnable size to always atleast 1 or the amount + 1
+	set {GS::Runnable::size} to 1 + ({GS::Runnable::size} ? 0)
+	set {_size} to {GS::Runnable::size} 
+
+	set {GS::Runnables::%{_size}%} to {_uuid}
+
+	# https://skripthub.net/docs/?id=10690
+	set {_compound} to (new nbt compound)
+
+	return {_compound}

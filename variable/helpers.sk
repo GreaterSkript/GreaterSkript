@@ -26,9 +26,9 @@ Or do we just not? But then no, but maybe?
 uhm
 yeah? i think? maybe?
 
-global.entity.getHealth()
-memory.entity.getHealth()
-entity.getHealth()
+global.entity.getHealth ()
+memory.entity.getHealth ()
+entity.getHealth ()
 
 i think the main downside is the time to write 
 but i dont think you would have to do this in many
@@ -43,7 +43,7 @@ no i think its fair
 
 oh true.
 Those are kind of scary since we have arithmetic operations
-However we could leave that part up to debate, but I do like that *.entity() <- this is good very much so
+However we could leave that part up to debate, but I do like that *.entity () <- this is good very much so
 
 Exactly :)
 
@@ -51,7 +51,7 @@ we need to handle x ? y mhm
 
 we should be able to just pass that directly through `{tokenizeExpr} ? {tokenizeExpr}` and convert it directly since it already exists 
 look at chat lobby
-Lmao, the #get from entity.get() isn't white for me, weird, wait, like my entire thing is flipped
+Lmao, the #get from entity.get () isn't white for me, weird, wait, like my entire thing is flipped
 wired
 im going blind this looks like an eye ^
 Which one?
@@ -88,9 +88,9 @@ i get what you are s
 Cause it stops this from happening vvv
 this is fair. i get it now
 
-BedwarsSession[1]["players"].add("Nuutrai", 1) {_size} = 5
-BedwarsSession[1]["players"].remove("Miberss") {_size} = 4
-BedwarsSession[1]["players"].add("md5nake") {_size} = 5
+BedwarsSession[1]["players"].add ("Nuutrai", 1) {_size} = 5
+BedwarsSession[1]["players"].remove ("Miberss") {_size} = 4
+BedwarsSession[1]["players"].add ("md5nake") {_size} = 5
 
 set {BedwarsSession::1::players::%{_size}%} to "Nuutrai"
 

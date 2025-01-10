@@ -1,3 +1,6 @@
+options:
+	youngHeapThreshold: 2
+
 function getFiles():: strings:
 	loop all files of dir path "plugins/Skript/scripts":
 		if extension of loop-value != "gs":
@@ -10,8 +13,31 @@ function compileFile(file: string):
 	loop getFiles():
 		set {GS::uuid} to initFile()
 		set {_file} to file({GS::uuid})
-		loop getLines({_file}):
+		loop getLines({_file}, false):
 			tokenizeLine(loop-value)
+		if mod(loop-counter, 5) = 0:
+			deleteYoungHeap()
+
+function deleteYoungHeap():
+	loop {GS::heap::young::*}:
+		set {_expr} to loop-index
+		set {_timesUsed} to loop-value
+		
+		delete {GS::heap::young::%{_expr}%}
+
+		# Mess around with that value and see which preforms the best
+		if {_timesUsed} <= {@youngHeapThreshold}:
+			continue
+
+		if {GS::heap::old::%{_expr}%} is set:
+			add {_timesUsed} to {GS::heap::old::%{_expr}%}
+			continue
+			
+		set {GS::heap::old::%{_expr}%} to {_timesUsed}
+		
+		
+
+
 
 # FOR LATER
 
@@ -29,19 +55,10 @@ function compileLine(line: string):
 
 	👍
 
-	help no please god no please
-	
-	fti tion(wow) NO
-
-	fction
-
-	fun()
-
-fnncntinon
 	###
 
 function tokenizeLine(line: string):: strings:
-	set {_type} to instanceOf({_line})
+	set {_type} to lineInstanceOf({_line})
 	if {_type} = "variable":
 		tokenizeVariable({_line})
 	else if {_type} = "condition":
@@ -74,7 +91,9 @@ function primeDirectory():
 function fileExists(uuid: string):: boolean:
 	return whether file path "plugins/Skript/scripts/GreaterSkript/%{_uuid}%.sk" exists
 
-function getLines(file: string):: strings:
+function getLines(file: string, inSkript: boolean = true):: strings:
+	if {_inSkript} = true:
+		return "plugins/Skript/scripts/%{_file}%"
 	return content of file path {_file}
 
 function setLines(file: string, lines: strings):

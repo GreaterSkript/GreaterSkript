@@ -41,23 +41,23 @@ function tokenizeEffect(line: string):: strings:
 
 	###
 
-	player.wow() = entity.wow()
+	player.wow () = entity.wow ()
 
 	[
-		player.wow()
+		player.wow ()
 		=
-		entity.wow()
+		entity.wow ()
 	]
 
 
 
-	{_var} = player.getWow()
+	{_var} = player.getWow ()
 
 	[
 		{_var}
 		=
 		player
 		.
-		getHow()
+		getHow ()
 	]
 	###

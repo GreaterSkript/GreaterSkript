@@ -1,54 +1,96 @@
-function convert(line: string): string:
-	set {_test} to "server.broadcast(%%message%%) : broadcast %%message%%"
+using for loops
+
+function getEffects(pullFromFile: boolean = false):: strings:
+	if {_pullFromFile} = true:
+		return getLines("GreaterSkript/lang/GSeffect.lang")
+	else if {GS::heaps::old::1} is set:
+		return {GS::heaps::old::*}, and {GS::heaps::young::*} 
+	else if {GS::heaps::young::1} is set:
+		return {GS::heaps::young::*}
+	
+	return getEffects(true)
 
 
+	# How does the heap stuff look in file.sk?
 
-	set {_test} to "%%player%%.%%property%%() : %%property%% of %%player%%"
-	set {_test} to "%%player%%.%%property%%() : %%player%%'s %%property%%"
+# x = {
+#   2,
+#   5,
+# }
+function convertEffects(line: string, fromFile: boolean = false):: string:
 
-	"%%player%%.%%property%%() : %%property%% off %%player%%"
-	"%%player%%.%%property%%() : %%property%% of %%player%%"
+	# "whether {_fromFile} != true" == "!{_fromFile}"
+	set {_results::*} to getEffects(whether {_fromFile} != true) 
 
-	set {_test::*} to {_test} split by " : "
+	set {_size} to 0
 
-	set {_size} to 1
+	#
+	#	{_syntaxAndConversion}
+	#
+	#	Contains a string from either the heaps or directly from a lang file
+	#
+	#	Formatted as the following:
+	#		"%syntax% : %conversion%"
+	#
 
-	set {_expressions::%{_size}%} to {_test::1}
-	set {_conversions::%{_size}%} to {_test::2}
+	for each {_syntaxAndConversion} in {_results::*}:
 
-	# set {_i} to 0
-	# set {_exprIndex} to 0
+		add 1 to {_size}
+
+		set {_syntaxAndConversion::*} to {_syntaxAndConversion} split by " : "
+
+		set {_syntax::%{_size}%} to {_syntaxAndConversion::1}
+		set {_conversions::%{_size}%} to {_syntaxAndConversion::2}
+
+
 
 	# Change to while loop maybe if better
+	# I would just run through expressions like you are doing yeah
+	#No idea if it's a good idea. Okie dokie!
 
-	loop {_expressions::*}:
+	loop {_syntax::*}:
+
 		set {_i} to loop-index
-		set {_expr} to loop-value
+		set {_syntax} to loop-value
 
-		set {_objs::*} to isInstanceOf({_line}, {_expr})
+		set {_objs::*} to instanceOf({_line}, {_syntax})
 
+		# Verify if line is an instance of the syntax
 		if {_objs::1} = true:
 			set {_found} to true
+			set {_heapIndex} to "%{_syntax}% : %{_conversions::%{_i}%}%"
+			add 1 to {GS::heaps::young::%{_heapIndex}%}
 			exit loop
 	
 	if {_found} != true:
-		throwError()
+		if {_fromFile} = true:
+			throwError()
+			return ""
+		
 
+		set {queue::*} to 1, 2, 5, 4, 6
+		set {_bing::*} to indexes of {queue::*}
+		transform (indexes of {_bing::*}) with input + 1
+
+		set {queue::1} to new value
+		delete {queue::51}
+
+		return convertEffect({_line}, true)
 		
 
 
 
-
-
+		# I have no idea what all of this meant
+		# Are you okay???
 		###
 
-		{_name} = methodToGetName()
+		{_name} = methodToGetName ()
 		{_index} = ^
 
-		set {_exprsValues::%{_name}%} to {_index}
+		set {_syntaxValues::%{_name}%} to {_index}
 
 
-		set {_indexOfTheName} size of {_objs::*} - 2 
+		set {_indexOfTheName} to size of {_objs::*} - 2 
 
 		boolean - number of tokens 
 
@@ -57,19 +99,17 @@ function convert(line: string): string:
 		{_indexOfName} = first element of {_IOTN} split by "-"
 		{_valueOfName} = second element of {_IOTN} split by "-"
 
-		check against {_exprsValues::*}
+		check against {_syntaxValues::*}
 		###
 
 
-# function testInstance():
-# 	set {_time} to unix timestamp of now
-# 	loop 60000 times:
-# 		set {_objs::*} to isInstanceOf(".server.abroaast(woww)", "send.%%thing%%.broadcast(%%message%%)")
-# 	set {_final} to unix timestamp of now
-# 	set {_diff} to {_final} - {_time}
-# 	broadcast {_diff}
+# Function instanceOf
+# Returns 
+# Object[1]    = boolean that says whether its an instance of
+# Object[2]    = amount of tokens that there are (amount of expressions in the syntax)
+# Object[3...] = everything else is expressions, a string with the following format "index-value"
 
-function isInstanceOf(line: string, expr: string):: objects:
+function instanceOf(line: string, expr: string):: objects:
 	set {_exprChars::*} to {_expr} split by ""
 	set {_lineChars::*} to {_line} split by ""
 	set {_isExpression} to false
@@ -244,7 +284,7 @@ function convertEffect(tokens: strings):: string:
 
 var entity =
 
-entity.get()
+entity.get ()
 
 
 {vars::%event%::*} [
