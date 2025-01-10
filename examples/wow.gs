@@ -84,7 +84,7 @@ Event: on script load
 	│		└── FunctionResult
 	│			├── Name: "player"
 	│			└── Arguments:
-	│				├── "Nuutrai"
+	│				└── "Nuutrai"
 	├── Effect
 		├── Subtype: change
 		├── subjects: [ ]
@@ -92,8 +92,8 @@ Event: on script load
 			└── Static
 				├── 16
 				├── +
-				├── FunctionResult
-					├── Name: "player" 
+				└── FunctionResult
+					└── Name: "player" 
 
 FunctionDefinition (_draw)
 ├── Body
@@ -105,10 +105,11 @@ FunctionDefinition (_draw)
             ├── Argument3: i
             └── Argument4: i
 
-3 Types of expressions:
+4 Types of expressions:
 -	FunctionResult
 -	Variable
 -	Static
+-	Method
 
 5 Types of effects:
 -	Change     | +=, =
