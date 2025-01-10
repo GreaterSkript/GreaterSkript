@@ -16,4 +16,4 @@ If you encounter a bug, please let us know in our issues tab. If you've gone ahe
 
 #### Thank you for taking a look at GreaterSkript, and we hope you enjoy
 
-###### For any questions not listed, please message us on Discord at `Nuutrai` or `miberss`
+###### For any questions not listed, please message us on Discord at `Nuutrai` or `mibers`
